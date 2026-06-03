@@ -47,6 +47,9 @@ public struct XAlertConfiguration {
     /// 动画配置。
     public var animation: XAlertAnimationConfiguration
 
+    /// 拖拽关闭配置。
+    public var interactiveDismiss: XAlertInteractiveDismissConfiguration
+
     /// 内建内容视图使用的视觉主题。
     public var theme: XAlertTheme
 
@@ -76,6 +79,7 @@ public struct XAlertConfiguration {
         actions: [XAlertAction] = [],
         layout: XAlertLayoutConfiguration = XAlertLayoutConfiguration(),
         animation: XAlertAnimationConfiguration = XAlertAnimationConfiguration(),
+        interactiveDismiss: XAlertInteractiveDismissConfiguration = XAlertInteractiveDismissConfiguration(),
         theme: XAlertTheme = .default,
         shouldDismiss: (() -> Bool)? = nil,
         shouldDismissForAction: ((XAlertAction) -> Bool)? = nil,
@@ -96,6 +100,7 @@ public struct XAlertConfiguration {
         self.actions = actions
         self.layout = layout
         self.animation = animation
+        self.interactiveDismiss = interactiveDismiss
         self.theme = theme
         self.shouldDismiss = shouldDismiss
         self.shouldDismissForAction = shouldDismissForAction

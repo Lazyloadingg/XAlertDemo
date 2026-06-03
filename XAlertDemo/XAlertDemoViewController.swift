@@ -23,6 +23,7 @@ final class XAlertDemoViewController: UIViewController {
     private lazy var items: [DemoItem] = [
         DemoItem(title: "基础 Alert", detail: "标题、正文、普通/取消操作", action: { $0.showBasicAlert() }),
         DemoItem(title: "过渡动效示例", detail: "连续展示几种出现 / 消失组合", action: { $0.showTransitionAnimationShowcase() }),
+        DemoItem(title: "拖拽关闭", detail: "顶部 Banner 上滑关闭，底部 Sheet 下滑关闭", action: { $0.showInteractiveDismissDemo() }),
         DemoItem(title: "底部 Sheet", detail: "独立取消按钮、危险操作、底部安全区", action: { $0.showSheet() }),
         DemoItem(title: "顶部 Banner", detail: "无遮罩、顶部方向展示", action: { $0.showTopBanner() }),
         DemoItem(title: "方向展示", detail: "同一内容样式从四个方向进入", action: { $0.showDirectionalAlerts() }),
@@ -68,7 +69,7 @@ final class XAlertDemoViewController: UIViewController {
         XAlert.alert(from: self)
             .title("基础 Alert")
             .animation({
-                $0.present.style = .springSlide
+                $0.present.style = .springScale
                 $0.dismiss.style = .fadeScale
             })
             .message("内容样式与展示方向解耦。这里使用居中弹窗样式，并在当前控制器内部展示。")
@@ -133,6 +134,29 @@ final class XAlertDemoViewController: UIViewController {
                     XAlert.close(identifier: step.identifier)
                 }
             }
+        }
+    }
+
+    private func showInteractiveDismissDemo() {
+        XAlert.make()
+            .contentStyle(.banner)
+            .presentationStyle(.top)
+            .displayMode(.immediate)
+            .dimMode(.none)
+            .interactiveDismissEnabled(true)
+            .title("可拖拽 Banner")
+            .message("向上拖动可以关闭，向下轻拉会回弹。")
+            .action("关闭")
+            .show()
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+            XAlert.sheet(from: self)
+                .interactiveDismissEnabled(true)
+                .title("可拖拽 Sheet")
+                .message("向下拖动超过距离阈值，或快速下滑，可以关闭这个 Sheet。")
+                .action("确认")
+                .cancel("取消")
+                .show()
         }
     }
 

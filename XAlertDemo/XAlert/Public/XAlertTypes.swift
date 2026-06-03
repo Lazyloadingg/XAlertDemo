@@ -174,6 +174,39 @@ public enum XAlertDimMode {
     }
 }
 
+/// 定义拖拽关闭行为。
+public struct XAlertInteractiveDismissConfiguration {
+    /// 是否开启拖拽关闭。
+    public var isEnabled: Bool
+
+    /// 拖动距离超过内容尺寸比例时关闭。
+    public var distanceThresholdRatio: CGFloat
+
+    /// 拖动距离超过该绝对值时关闭。
+    public var distanceThreshold: CGFloat
+
+    /// 拖动速度超过该阈值时关闭。
+    public var velocityThreshold: CGFloat
+
+    /// 反方向拖动时是否允许轻微阻尼位移。
+    public var allowsRubberBanding: Bool
+
+    /// 创建拖拽关闭配置。
+    public init(
+        isEnabled: Bool = false,
+        distanceThresholdRatio: CGFloat = 0.33,
+        distanceThreshold: CGFloat = 75,
+        velocityThreshold: CGFloat = 750,
+        allowsRubberBanding: Bool = true
+    ) {
+        self.isEnabled = isEnabled
+        self.distanceThresholdRatio = distanceThresholdRatio
+        self.distanceThreshold = distanceThreshold
+        self.velocityThreshold = velocityThreshold
+        self.allowsRubberBanding = allowsRubberBanding
+    }
+}
+
 /// 内建弹窗内容视图使用的视觉主题。
 public struct XAlertTheme {
     /// 居中弹窗主容器背景色。

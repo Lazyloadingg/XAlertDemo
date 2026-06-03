@@ -58,8 +58,6 @@ public struct XAlertSlideAnimator: XAlertAnimator {
         let phase = context.configuration.animation.dismiss
         let style = resolvedDismissStyle(phase.style)
         context.contentView.layer.removeAllAnimations()
-        context.contentView.frame = context.visibleFrame
-        context.contentView.transform = .identity
 
         switch style {
         case .none:

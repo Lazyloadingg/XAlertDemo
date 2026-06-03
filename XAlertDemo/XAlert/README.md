@@ -63,6 +63,34 @@ XAlert.sheet(from: self)
     .show()
 ```
 
+## 拖拽关闭
+
+顶部和底部方向的弹窗可以开启拖拽关闭。顶部弹窗向上拖动关闭，底部弹窗向下拖动关闭；未达到关闭阈值时会弹回原位。
+
+```swift
+XAlert.make()
+    .contentStyle(.banner)
+    .presentationStyle(.top)
+    .dimMode(.none)
+    .interactiveDismissEnabled(true)
+    .title("可拖拽 Banner")
+    .message("向上拖动可以关闭")
+    .show()
+```
+
+```swift
+XAlert.sheet(from: self)
+    .interactiveDismiss {
+        $0.isEnabled = true
+        $0.velocityThreshold = 750
+        $0.distanceThresholdRatio = 0.33
+    }
+    .title("可拖拽 Sheet")
+    .message("向下拖动可以关闭")
+    .cancel("取消")
+    .show()
+```
+
 ## 同时展示 Alert 和 Sheet
 
 Alert 默认在 `.center` lane，Sheet 默认在 `.bottom` lane，不同 lane 默认互不阻塞。

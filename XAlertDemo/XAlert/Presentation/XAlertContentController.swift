@@ -26,10 +26,12 @@ final class XAlertContentController: UIViewController {
     private let configuration: XAlertConfiguration
     private let contentView: XAlertContentPresenting
     private let animator: XAlertAnimator
+    private let interactiveDismissController = XAlertInteractiveDismissController()
     private let layoutEngine = XAlertLayoutEngine()
     private var keyboardOverlap: CGFloat = 0
     private var state: XAlertPresentationState = .idle
     private var visibleFrame: CGRect = .zero
+    private var isInteractiveDismissActive = false
 
     /// 创建内容控制器。
     init(configuration: XAlertConfiguration) {
@@ -82,20 +84,42 @@ final class XAlertContentController: UIViewController {
         view.layoutIfNeeded()
         layoutContentView()
         animator.present(context: animationContext()) { [weak self] in
-            self?.state = .visible
+            guard let self else { return }
+            self.state = .visible
+            self.installInteractiveDismissIfNeeded()
         }
     }
 
     /// 执行关闭动画。
     func dismiss(completion: @escaping () -> Void) {
         guard state != .dismissing, state != .dismissed else { return }
+        interactiveDismissController.uninstall()
         view.layoutIfNeeded()
-        visibleFrame = contentView.frame
+        if contentView.transform == .identity {
+            visibleFrame = contentView.frame
+        }
         state = .dismissing
         animator.dismiss(context: animationContext()) { [weak self] in
+            self?.isInteractiveDismissActive = false
             self?.state = .dismissed
             completion()
         }
+    }
+
+    private func installInteractiveDismissIfNeeded() {
+        interactiveDismissController.install(
+            on: contentView,
+            configuration: configuration,
+            requestDismiss: { [weak self] in
+                self?.onDismissRequest?(nil)
+            },
+            onInteractionBegan: { [weak self] in
+                self?.isInteractiveDismissActive = true
+            },
+            onInteractionEnded: { [weak self] in
+                self?.isInteractiveDismissActive = false
+            }
+        )
     }
 
     private func handle(_ action: XAlertAction) {
@@ -148,6 +172,7 @@ final class XAlertContentController: UIViewController {
     }
 
     private var shouldApplyLayout: Bool {
+        guard !isInteractiveDismissActive else { return false }
         switch state {
         case .idle, .presenting, .visible:
             return true

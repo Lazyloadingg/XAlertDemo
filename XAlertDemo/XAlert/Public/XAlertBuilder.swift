@@ -246,6 +246,18 @@ public struct XAlertBuilder {
         updating { configure(&$0.animation) }
     }
 
+    /// 开启或关闭拖拽关闭。
+    @discardableResult
+    public func interactiveDismissEnabled(_ enabled: Bool) -> XAlertBuilder {
+        updating { $0.interactiveDismiss.isEnabled = enabled }
+    }
+
+    /// 更新拖拽关闭配置。
+    @discardableResult
+    public func interactiveDismiss(_ configure: (inout XAlertInteractiveDismissConfiguration) -> Void) -> XAlertBuilder {
+        updating { configure(&$0.interactiveDismiss) }
+    }
+
     /// 设置内建内容视图使用的视觉主题。
     @discardableResult
     public func theme(_ theme: XAlertTheme) -> XAlertBuilder {

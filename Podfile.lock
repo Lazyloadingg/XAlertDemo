@@ -1,0 +1,24 @@
+PODS:
+  - LEEAlert (1.8.2):
+    - LEEAlert/Privacy (= 1.8.2)
+  - LEEAlert/Privacy (1.8.2)
+  - SwiftMessages (10.0.2):
+    - SwiftMessages/App (= 10.0.2)
+  - SwiftMessages/App (10.0.2)
+
+DEPENDENCIES:
+  - LEEAlert
+  - SwiftMessages
+
+SPEC REPOS:
+  trunk:
+    - LEEAlert
+    - SwiftMessages
+
+SPEC CHECKSUMS:
+  LEEAlert: b0bbaaa8fba0819247a02d3fbca2cb94bef741f2
+  SwiftMessages: bfefe945bc05ce7cd328303d53d0d1849e29109d
+
+PODFILE CHECKSUM: d8012418df394ef141bc1826efaa2c1bf9872f8b
+
+COCOAPODS: 1.16.2
